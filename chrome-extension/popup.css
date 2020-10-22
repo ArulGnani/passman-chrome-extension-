@@ -1,0 +1,224 @@
+body {
+    width: 300px;
+    background: #474a4f;
+    border: 2px solid rgb(41, 43, 49);
+    border-radius: 2px;
+    margin: 0;
+    padding: 0px 10px;
+    color: white;
+}
+
+header {
+    /* border: 2px solid yellowgreen; */
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    padding: 0px 10px;
+}
+
+header div {
+    display: flex;
+    align-items: center;
+}
+
+header h2 {
+    margin-left: 10px;
+    letter-spacing: 1px;
+    font-size: 20px;
+    font-family: monospace;
+}
+
+header img {
+    width: 30px;
+    height: 30px;
+}
+
+header p { 
+    margin-left: auto; 
+    font-size: 14px;
+}
+
+p { 
+    font-size: 15px; 
+}
+
+button {
+    outline: none;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 5px;
+    border: none;
+    border-radius: 4px;
+    margin: 0;
+    transition: transform 0.2s ease;
+}
+
+button:hover {
+    transform: scale(0.95);
+}
+
+.form {
+    /* border: 2px solid yellow; */
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    opacity: 0.9;
+    outline: none;
+    padding: 5px;
+    font-size: 18px;
+    border: none;
+    border-radius: 3px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.warning-section {
+    background: #2d3033;
+    border-radius: 4px;
+}
+
+.warn-msg {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.warn-msg button {
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.option-section {
+    /* border: 2px solid yellow; */
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.option-section button {
+    font-weight: bold;
+    font-size: 15px;
+    height: 30px;
+    width: 70px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.msg { 
+    text-align: center; 
+}
+
+.no-password {
+    font-size: 16px;
+    text-align: center;
+}
+
+/* .password-section {
+    border: 2px solid tan;
+} */
+
+.password-section div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: #2d3033;
+    /* border: 2px solid salmon; */
+    padding: 0px 10px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    border-radius: 4px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.password-section div:hover {
+    background: #686f75;
+    transform: scale(1.03);
+}
+
+.password-section div button {
+    margin-left: auto;
+    height: 30px;
+    width: 50px;
+    font-size: 16px;
+    font-weight: 600;
+    font-size: 15px;    
+}
+
+.new-password-btn {
+    background: #2d3033;
+    border-radius: 4px;
+    margin: 15px 0px;
+    padding-left: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.new-password-btn p {
+    font-size: 15px;
+}
+
+.new-password-btn button {
+    height: 30px;
+    width: 30px;
+    margin-left: 10px;
+}
+
+.new-password-btn button:hover {
+    transform: scale(0.8);
+}
+
+.new-password-form {
+    padding: 10px;
+    background: #2d3033;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.new-password-form p {
+    font-size: 20px;
+    margin-top: 8px 0px;
+}
+
+.new-password-form button {
+    font-size: 16px;
+}
+
+.password-profile {
+    background: #686f75;
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.password-profile p {
+    font-size: 18px;
+    margin: 10px 0px;
+    /* border: 2px solid gold; */
+}
+
+.password-profile button {
+    font-size: 15px;
+    font-weight: bold;
+    margin-left: 15px;
+}
+
+.cpy-msg {
+    background: #848a8f;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: row;
+    font-size: 14px;
+    justify-content: center;
+    align-items: center;
+}
+
+.cpy-msg button {
+    height: 30px;
+}
