@@ -6,26 +6,32 @@
 //     console.log('set')
 // })
 
+const isDev = false;
+
 function createDominObject() {
     chrome.storage.local.set({'domins' : {}});
 }
 
 chrome.storage.local.get(['token','domins','expire'],function(value) {
-    // console.log(value);
+    console.log(value);
 
     if (value.domins === undefined) {
         createDominObject();
     }
 
-    if (value.expire !== undefined){
-        if (new Date().getTime() < value.expire && value.token !== undefined) {
+    if (value.expire === undefined || value.token === undefined) {
+        authendicatePage(null);
+    } 
+    
+    if (value.expire !== undefined && value.token !== undefined) {
+        if (new Date().getTime() < value.expire) {
             showMainPage();
+        } else {
+            validateToken(value.token).then(function(valid) {
+                if (valid) mainPage(); 
+                else authendicatePage(value.token);
+            });
         }
-    } else {
-        validateToken(value.token).then(function(valid) {
-            if (valid) mainPage(); 
-            else authendicatePage(value.token);
-        });
     }
 });
 
@@ -35,19 +41,38 @@ async function validateToken(token){
     var p = document.createElement("p");
     p.innerText = "loading...";
     main.appendChild(p);
-    var apiEndpoint = "http://localhost:5000/sample-71a5a/us-central1/ValidateToken";
+
+    var apiEndpoint = isDev ?
+        "http://localhost:5000/api/auth/validate-token/" :
+        "https://passman-v4-backend.herokuapp.com/api/auth/validate-token/";
+
     var response = {};
     await fetch(apiEndpoint, { method : "GET", headers: { token : token }})
         .then(function (res) { return res.json(); })
         .then(function (data) {
+            console.log(data);
+            if (data.err) {
+                removeToken();
+                response.valid = false;
+            }
+
             if (data.valid === true) { 
                 response.valid = true; 
                 cacheToken();
             }
         })
-        .catch(function(_) { response.err = true; })
+        .catch(function(err) { 
+            console.log(`validate token err => ${err}`);
+            response.err = true; 
+        })
         .finally(function() { main.removeChild(p); });
     return response.valid ? true : false;
+}
+
+function removeToken() {
+    chrome.storage.local.remove(['token','expire'], function() {
+        console.log("invalid token => removed token");
+    });
 }
 
 function cacheToken() {
@@ -117,11 +142,23 @@ async function verify(type) {
     var msg = document.getElementById("msg");
     if (email !== "" && password !== "") {
         msg.innerText = "loading...";
-        var loginURl = "http://localhost:5000/sample-71a5a/us-central1/Login";
-        var signInURL = "http://localhost:5000/sample-71a5a/us-central1/SignIn";
+
+        var loginURl = isDev ? 
+            "http://localhost:5000/api/auth/login/" : 
+            "https://passman-v4-backend.herokuapp.com/api/auth/login/";
+
+        var signInURL = isDev ?
+            "http://localhost:5000/api/auth/signin" :
+            "https://passman-v4-backend.herokuapp.com/api/auth/signin" ; 
+
         var url = type === "signIn" ? signInURL : loginURl;
         var params = { email: email, password: password };
-        await fetch(url, { method: "POST", body : JSON.stringify(params)})
+        console.log(params);
+        await fetch(url, { 
+            method: "POST",
+            headers : { 'Content-Type': 'application/json' }, 
+            body : JSON.stringify(params)
+        })
             .then(function(response) { return response.json(); })
             .then(function(data) {
                 // console.log(data);
@@ -251,11 +288,14 @@ async function getPassObj(token, e, domin) {
     warnMsg.appendChild(btn);
     div.appendChild(warnMsg);
     var passId = e.target.id;
-    var url = "http://localhost:5000/sample-71a5a/us-central1/GetPassword";
+
+    var url = isDev ? 
+        'http://localhost:5000/api/get-password/' + passId: 
+        'https://passman-v4-backend.herokuapp.com/api/get-password/' + passId;
+    
     await fetch(url, { 
-            method: "POST", 
-            headers: { token : token },
-            body: JSON.stringify({ id: passId })
+            method: "GET", 
+            headers: { token : token }
         })
         .then(function(response) { return response.json(); })
         .then(function(data) { 
@@ -269,7 +309,7 @@ async function getPassObj(token, e, domin) {
             showAllPasswordProfiles(domin);
         })
         .catch(function(err) {
-            // console.log(err);
+            console.log("get - password => ",err);
         });
 }
 
@@ -418,10 +458,17 @@ async function createPassword(token, domin) {
     p.innerText = domin;
     if (input.value !== "") {
         msg.innerText = "loading...";
-        var url = "http://localhost:5000/sample-71a5a/us-central1/CreateNewPassword";
+
+        var url = isDev ? 
+            "http://localhost:5000/api/create-new-password/" : 
+            "https://passman-v4-backend.herokuapp.com/api/create-new-password/";
+
         await fetch(url, { 
                 method: "POST",
-                headers : { token : token },
+                headers : { 
+                    token : token,
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify({domin: domin, name: input.value})
             })
             .then(function(response) { return response.json(); })
