@@ -15,4 +15,4 @@ $ git clone https://github.com/ArulGnani/passman-chrome-extension-.git
  
 - [user passman as web app](https://passman-v4.netlify.app/)
 
-- [frontend repo](https://github.com/ArulGnani/passman-v4-fontend-pwa)
+- [frontend repo](https://github.com/ArulGnani/passman-v4-fontend)
