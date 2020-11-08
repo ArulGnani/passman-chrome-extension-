@@ -1,6 +1,6 @@
 # passman chrome extension
 
-** this is passman chrome extension allows you to manage your passwords in browser **
+**this is passman chrome extension allows you to manage your passwords in browser.**
 
 ## `how to use`
 
